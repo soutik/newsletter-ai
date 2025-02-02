@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weekly Digest: {{ topics }}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; }
+        .header { background: #1a365d; color: white; padding: 2rem; }
+        .article { margin: 1.5rem 0; border-left: 3px solid #1a365d; padding-left: 1rem; }
+        .footer { margin-top: 2rem; font-size: 0.8rem; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Your {{ topics }} Digest</h1>
+        <p>{{ date }} | {{ article_count }} curated articles</p>
+    </div>
+
+    {% for article in articles %}
+    <div class="article">
+        <h3><a href="{{ article.url }}">{{ article.title }}</a></h3>
+        <p>{{ article.summary }}</p>
+        <small>Source: {{ article.source }} | {{ article.published_at }}</small>
+    </div>
+    {% endfor %}
+
+    <div class="footer">
+        <p>Don't want these emails? <a href="{{ unsubscribe_url }}">Unsubscribe</a></p>
+    </div>
+</body>
+</html>

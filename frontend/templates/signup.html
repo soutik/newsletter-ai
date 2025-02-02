@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter Subscription</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="container mt-5">
+    <h2 class="mb-4">Subscribe to Our Newsletter</h2>
+
+    <form id="subscription-form">
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address:</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Choose your topics:</label><br>
+            <input type="checkbox" name="topics" value="AI"> AI <br>
+            <input type="checkbox" name="topics" value="Machine Learning"> Machine Learning <br>
+            <input type="checkbox" name="topics" value="Data Science"> Data Science <br>
+            <input type="checkbox" name="topics" value="Tech News"> Tech News <br>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+    </form>
+
+    <div id="response-message" class="mt-3"></div>
+
+    <script>
+        $(document).ready(function () {
+            $("#subscription-form").submit(function (event) {
+                event.preventDefault();  // Prevent form from submitting normally
+                
+                let email = $("#email").val();
+                let topics = $("input[name='topics']:checked").map(function () {
+                    return this.value;
+                }).get();
+
+                // Log the captured data for debugging
+                console.log("Email:", email);
+                console.log("Selected Topics:", topics);
+
+                let payload = { email: email, topics: topics }
+                console.log("payload:", payload);
+
+                if (!email || topics.length === 0) {
+                    alert("Please provide an email and select at least one topic.");
+                    return;  // Prevent submission if validation fails
+                }
+
+                // Send JSON data via AJAX to the backend
+                $.ajax({
+                    url: "/subscribe",  // Flask endpoint to send the data to
+                    type: "POST",
+                    contentType: "application/json",  // Content type as JSON
+                    data: JSON.stringify(payload),  // Convert data to JSON string
+                    success: function (response) {
+                        $("#response-message").html(`<div class="alert alert-success">${response.message}</div>`);
+                    },
+                    error: function (xhr, status, error) {
+                        // Log error response for debugging
+                        console.log("Error:", error);
+                        $("#response-message").html(`<div class="alert alert-danger">Subscription failed. Try again.</div>`);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
