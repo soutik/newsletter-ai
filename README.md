@@ -15,6 +15,7 @@ A system that curates personalized newsletters using LLMs, vector databases, and
 - API Keys:
   - [OpenAI API Key](https://platform.openai.com/api-keys)
   - [NewsAPI Key](https://newsapi.org/register)
+  - [GMail App Password](https://myaccount.google.com/apppasswords)
 
 ## Installation
 
